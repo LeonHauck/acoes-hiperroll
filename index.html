@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Controle de Ações Comerciais | Hiperroll</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="pagina-login">
+    <div class="cartao-login">
+        <img src="assets/img/logo-hiperroll.png" alt="Hiperroll Embalagens" class="logo-login">
+        <h1>Controle de Ações Comerciais</h1>
+        <p class="subtitulo-login">Acesso restrito - Gestão Comercial</p>
+
+        <div class="alerta alerta-erro" id="mensagemErro" hidden></div>
+
+        <form id="formLogin" class="form-login">
+            <label for="usuario">Usuário</label>
+            <input type="text" id="usuario" name="usuario" autocomplete="username" required autofocus>
+
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senha" autocomplete="current-password" required>
+
+            <button type="submit" class="botao botao-primario botao-full" id="botaoEntrar">Entrar</button>
+        </form>
+    </div>
+
+    <script src="assets/js/login.js"></script>
+</body>
+</html>

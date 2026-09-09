@@ -1,0 +1,14 @@
+# Dados reais do sistema (ações comerciais e usuários) — nunca versionar
+data/*.json
+
+# Comprovantes enviados pelos usuários — nunca versionar
+uploads/*
+!uploads/.htaccess
+
+# Cópia solta do logo na raiz (a usada pelo sistema é assets/img/logo-hiperroll.png)
+/logo-hiperroll.png
+
+# Arquivos de sistema operacional / editor
+.DS_Store
+Thumbs.db
+.vscode/

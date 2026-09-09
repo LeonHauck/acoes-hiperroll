@@ -1,0 +1,5 @@
+# Impede a execução de scripts dentro da pasta de comprovantes enviados.
+<FilesMatch "\.(php|php\d|phtml|pl|py|cgi|sh)$">
+    Require all denied
+</FilesMatch>
+Options -Indexes
