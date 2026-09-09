@@ -1,4 +1,4 @@
-# Controle de Ações Comerciais — Hiperroll Embalagens
+# 📊 Controle de Ações Comerciais — Hiperroll Embalagens
 
 Sistema web interno para o time comercial da **Hiperroll Embalagens** registrar,
 acompanhar e comprovar as ações comerciais realizadas junto às redes de clientes
@@ -8,7 +8,7 @@ Substitui o antigo processo manual em formulário de Google Docs por um painel �
 com histórico centralizado, upload de comprovante por ação, fluxo de aprovação por
 status e exportação de relatórios em Excel e PDF.
 
-## Contexto
+## 🧭 Contexto
 
 As redes de supermercados realizam ações comerciais em troca de verbas pagas pela
 Hiperroll — encartes, pontas de gôndola, degustação, TV indoor, ações de Sell-in e
@@ -16,26 +16,26 @@ Sell-out, entre outras. Cada ação precisa ser registrada com comprovante, anal
 e aprovada antes do pagamento. Este sistema dá ao gestor comercial um lugar único
 para lançar, acompanhar e comprovar tudo isso.
 
-## Funcionalidades
+## ✨ Funcionalidades
 
-- **Login protegido por sessão**, com senha armazenada com hash (bcrypt).
-- **Cadastro de ações comerciais** com campos inteligentes (autocomplete que aprende
-  com o que já foi digitado): rede, loja, representante e tipo de ação.
-- **Sell-in e Sell-out com cálculo automático**: ao escolher um desses tipos, o
+- 🔐 **Login protegido por sessão**, com senha armazenada com hash (bcrypt).
+- 📝 **Cadastro de ações comerciais** com campos inteligentes (autocomplete que
+  aprende com o que já foi digitado): rede, loja, representante e tipo de ação.
+- 🧮 **Sell-in e Sell-out com cálculo automático**: ao escolher um desses tipos, o
   sistema pede a quantidade vendida no período e a recomposição por unidade, e
   calcula o valor total sozinho (quantidade × valor unitário) — recalculado também
   no servidor, para não depender do que o navegador enviar.
-- **Período da ação** (data início e data fim), já que uma ação pode durar vários
+- 📅 **Período da ação** (data início e data fim), já que uma ação pode durar vários
   dias (ex: uma campanha de TV).
-- **Upload de comprovante** (foto ou PDF) por ação.
-- **Status de aprovação**: Em análise → Aprovado → Pago.
-- **Filtros** por rede, representante, status e período.
-- **Dashboard com totais** por status e total geral.
-- **Exportação em Excel** (.xls) e **PDF** (via relatório de impressão), respeitando
+- 📎 **Upload de comprovante** (foto ou PDF) por ação.
+- 🔄 **Status de aprovação**: Em análise → Aprovado → Pago.
+- 🔍 **Filtros** por rede, representante, status e período.
+- 📈 **Dashboard com totais** por status e total geral.
+- 📤 **Exportação em Excel** (.xls) e **PDF** (via relatório de impressão), respeitando
   os filtros aplicados na tela.
-- **Identidade visual da Hiperroll** (cores, tipografia e logo) em todo o sistema.
+- 🎨 **Identidade visual da Hiperroll** (cores, tipografia e logo) em todo o sistema.
 
-## Stack tecnológica
+## 🛠️ Stack tecnológica
 
 - **PHP 8+** (sem framework) no back-end.
 - **HTML, CSS e JavaScript puro** no front-end — sem build step, sem dependências
@@ -45,7 +45,7 @@ para lançar, acompanhar e comprovar tudo isso.
   compartilhada (HostGator/cPanel), com trava de arquivo (`flock`) para evitar
   corrupção em gravações simultâneas.
 
-## Estrutura do projeto
+## 📁 Estrutura do projeto
 
 ```
 index.html              Tela de login (estática, fala com api/login.php via JS)
@@ -76,7 +76,7 @@ uploads/                Comprovantes enviados (bloqueado por .htaccess, fora do 
 setup/criar_admin.php   Cria o usuário administrador (uso único, sem senha fixa no código)
 ```
 
-## Como publicar
+## 🚀 Como publicar
 
 Requer apenas **PHP 8+** — nenhum banco de dados é necessário.
 
@@ -91,7 +91,7 @@ Requer apenas **PHP 8+** — nenhum banco de dados é necessário.
 4. **Apague o arquivo `setup/criar_admin.php`** do servidor depois de usá-lo.
 5. Acesse `https://seudominio.com.br/` e faça login.
 
-## Segurança
+## 🔒 Segurança
 
 - Senhas nunca ficam em texto puro — são armazenadas com `password_hash` (bcrypt).
 - Nenhuma credencial fica gravada no código-fonte (o script de criação de usuário
@@ -102,7 +102,7 @@ Requer apenas **PHP 8+** — nenhum banco de dados é necessário.
   versão (`.gitignore`) — são dados reais do negócio, não código.
 - Upload de comprovante valida extensão (JPG, PNG, WEBP, PDF) e tamanho máximo.
 
-## Roadmap
+## 🗺️ Roadmap
 
 - [ ] Tela de "trocar senha" para o usuário logado.
 - [ ] Mais de um usuário / nível de acesso (ex: representante só visualiza suas
@@ -110,7 +110,7 @@ Requer apenas **PHP 8+** — nenhum banco de dados é necessário.
 - [ ] Gráficos de acompanhamento de verba por rede e por período.
 - [ ] Histórico de alterações por ação (auditoria).
 
-## Sobre
+## 👤 Sobre
 
 Desenvolvido internamente para a Hiperroll Embalagens, com apoio do
 [Claude Code](https://claude.com/claude-code) (Anthropic) no desenvolvimento.
