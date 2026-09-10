@@ -177,14 +177,14 @@ exigirLogin();
                     <div class="grade-sellinout">
                         <div class="campo">
                             <label for="campoQuantidade">Quantidade Vendida no Período</label>
-                            <input type="number" id="campoQuantidade" name="quantidade" min="0" step="1">
+                            <input type="number" id="campoQuantidade" name="quantidade" min="0" step="1" placeholder="Preencha quando souber">
                         </div>
                         <div class="campo">
-                            <label for="campoValorUnitario">Recomposição por Unidade (R$)</label>
+                            <label for="campoValorUnitario">Recomposição por Unidade (R$) *</label>
                             <input type="number" id="campoValorUnitario" name="valor_unitario" min="0" step="0.01">
                         </div>
                     </div>
-                    <small class="texto-ajuda">O valor total é calculado automaticamente: quantidade × recomposição por unidade.</small>
+                    <small class="texto-ajuda">O valor total é calculado automaticamente: quantidade × recomposição por unidade. Se a quantidade ainda não fechou, deixe em branco — o valor fica pendente (R$ 0,00) até você completar depois, editando a ação.</small>
                 </div>
 
                 <div class="campo">

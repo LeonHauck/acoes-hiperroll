@@ -36,7 +36,7 @@
         const ativo = ehTipoSellInOut(campoTipoAcao.value);
 
         blocoSellInOut.hidden = !ativo;
-        campoQuantidade.required = ativo;
+        campoQuantidade.required = false;
         campoValorUnitario.required = ativo;
         campoValor.readOnly = ativo;
 
@@ -118,7 +118,7 @@
                 <td>${escapeHtml(l.rede)}</td>
                 <td>${escapeHtml(l.loja)}</td>
                 <td>${escapeHtml(l.representante)}</td>
-                <td>${escapeHtml(l.tipo_acao)}${(l.quantidade && l.valor_unitario) ? `<br><small class="detalhe-sellinout">${l.quantidade} un × ${formatarMoeda(l.valor_unitario)}</small>` : ''}</td>
+                <td>${escapeHtml(l.tipo_acao)}${detalheSellInOut(l)}</td>
                 <td>${formatarData(l.data_inicio)}</td>
                 <td>${formatarData(l.data_fim)}</td>
                 <td>${formatarMoeda(l.valor)}</td>
@@ -138,6 +138,14 @@
                 </td>
             </tr>
         `).join('');
+    }
+
+    function detalheSellInOut(l) {
+        if (!l.valor_unitario) return '';
+        if (l.quantidade) {
+            return `<br><small class="detalhe-sellinout">${l.quantidade} un × ${formatarMoeda(l.valor_unitario)}</small>`;
+        }
+        return `<br><small class="detalhe-sellinout detalhe-pendente">Aguardando quantidade · ${formatarMoeda(l.valor_unitario)}/un</small>`;
     }
 
     function escapeHtml(texto) {

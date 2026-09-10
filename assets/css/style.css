@@ -337,6 +337,7 @@ a { text-decoration: none; color: inherit; }
 .tabela-vazia { text-align: center; color: var(--cinza-texto-suave); padding: 40px !important; font-weight: 600; }
 
 .detalhe-sellinout { color: var(--cinza-texto-suave); font-weight: 600; }
+.detalhe-sellinout.detalhe-pendente { color: var(--amarelo); }
 
 .select-status-tabela {
     padding: 6px 10px;

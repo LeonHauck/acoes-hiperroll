@@ -70,18 +70,22 @@ switch ($acaoRequisicao) {
         // Sell-in e Sell-out têm o valor calculado a partir da quantidade vendida
         // no período multiplicada pela recomposição por unidade — o valor é
         // recalculado aqui no servidor para não depender do que o navegador enviou.
+        // A quantidade só costuma ser conhecida no fim da ação, então ela é opcional
+        // no cadastro: sem quantidade, o valor fica pendente (0) até ser completada
+        // depois, editando a ação.
         $quantidade = null;
         $valorUnitario = null;
 
         if (in_array(mb_strtolower($tipoAcao), ['sell-in', 'sell-out'], true)) {
-            $quantidade = (int) ($_POST['quantidade'] ?? 0);
+            $quantidadeInformada = trim($_POST['quantidade'] ?? '');
+            $quantidade = $quantidadeInformada !== '' ? (int) $quantidadeInformada : null;
             $valorUnitario = (float) str_replace(',', '.', $_POST['valor_unitario'] ?? '0');
 
-            if ($quantidade <= 0 || $valorUnitario <= 0) {
-                responder(['erro' => 'Informe a quantidade vendida e a recomposição por unidade.'], 422);
+            if ($valorUnitario <= 0) {
+                responder(['erro' => 'Informe a recomposição por unidade.'], 422);
             }
 
-            $valor = round($quantidade * $valorUnitario, 2);
+            $valor = $quantidade ? round($quantidade * $valorUnitario, 2) : 0.0;
         }
 
         if (!in_array($status, ['em_analise', 'aprovado', 'pago'], true)) {
