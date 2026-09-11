@@ -24,6 +24,7 @@ function formatoMoeda(float $v): string
 <head>
 <meta charset="UTF-8">
 <title>Relatório de Ações Comerciais - Hiperroll</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
 <style>
     * { box-sizing: border-box; }
     body { font-family: Arial, Helvetica, sans-serif; color: #1B2A4B; margin: 32px; }
