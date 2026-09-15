@@ -123,6 +123,10 @@ exigirLogin();
             </table>
         </div>
     </section>
+
+    <footer class="rodape-app">
+        Desenvolvido por <a href="https://www.linkedin.com/in/leon-hauck/" target="_blank" rel="noopener noreferrer">Leon Hauck</a>
+    </footer>
 </main>
 
 <!-- Modal de cadastro/edição -->
