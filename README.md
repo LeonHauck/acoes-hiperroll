@@ -22,18 +22,26 @@ para lançar, acompanhar e comprovar tudo isso.
 - 📝 **Cadastro de ações comerciais** com campos inteligentes (autocomplete que
   aprende com o que já foi digitado): rede, loja, representante e tipo de ação.
 - 🧮 **Sell-in e Sell-out com cálculo automático**: ao escolher um desses tipos, o
-  sistema pede a quantidade vendida no período e a recomposição por unidade, e
-  calcula o valor total sozinho (quantidade × valor unitário) — recalculado também
-  no servidor, para não depender do que o navegador enviar.
+  sistema pede a recomposição por unidade e calcula o valor total sozinho
+  (quantidade × valor unitário) — recalculado também no servidor, para não
+  depender do que o navegador enviar. A quantidade é opcional no cadastro (só
+  costuma ser conhecida no fim da ação): sem ela, o valor fica pendente
+  (R$ 0,00) e a tabela sinaliza "Aguardando quantidade" até ser completada
+  depois, editando a ação.
 - 📅 **Período da ação** (data início e data fim), já que uma ação pode durar vários
   dias (ex: uma campanha de TV).
 - 📎 **Upload de comprovante** (foto ou PDF) por ação.
+- 👁️ **Visualização detalhada**: um modal somente-leitura mostra todos os dados da
+  ação e uma prévia do comprovante, com botão para **imprimir o comprovante**
+  numa página formatada (com contexto da ação) pronta para impressão ou salvar
+  como PDF.
 - 🔄 **Status de aprovação**: Em análise → Aprovado → Pago.
 - 🔍 **Filtros** por rede, representante, status e período.
 - 📈 **Dashboard com totais** por status e total geral.
 - 📤 **Exportação em Excel** (.xls) e **PDF** (via relatório de impressão), respeitando
   os filtros aplicados na tela.
-- 🎨 **Identidade visual da Hiperroll** (cores, tipografia e logo) em todo o sistema.
+- 🎨 **Identidade visual da Hiperroll** (cores, tipografia, logo e favicon) em todo
+  o sistema.
 
 ## 🛠️ Stack tecnológica
 
@@ -53,6 +61,7 @@ dashboard.php           Painel principal (única tela após login)
 logout.php              Encerra a sessão
 relatorio.php           Relatório para impressão / salvar como PDF
 exportar_excel.php      Exportação em Excel (.xls)
+imprimir_comprovante.php  Página formatada para imprimir o comprovante de uma ação
 
 includes/
   config.php            Caminhos e nome do sistema
@@ -67,10 +76,12 @@ api/
 
 assets/
   css/style.css         Estilo visual (paleta e tipografia da Hiperroll)
-  js/app.js             Lógica do painel (tabela, filtros, modal, Sell-in/Sell-out)
+  js/app.js             Lógica do painel (tabela, filtros, modais, Sell-in/Sell-out)
   js/login.js           Lógica da tela de login
   img/logo-hiperroll.png
+  img/favicon-16.png, favicon-32.png, apple-touch-icon.png
 
+favicon.ico             Ícone da aba do navegador (fallback na raiz do site)
 data/                   acoes.json e usuarios.json (bloqueado por .htaccess, fora do Git)
 uploads/                Comprovantes enviados (bloqueado por .htaccess, fora do Git)
 setup/criar_admin.php   Cria o usuário administrador (uso único, sem senha fixa no código)
