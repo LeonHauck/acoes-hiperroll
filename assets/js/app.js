@@ -132,6 +132,7 @@
                 </td>
                 <td>
                     <div class="acoes-linha">
+                        <button type="button" class="botao-icone visualizar" data-acao="visualizar" data-id="${l.id}">Ver</button>
                         <button type="button" class="botao-icone editar" data-acao="editar" data-id="${l.id}">Editar</button>
                         <button type="button" class="botao-icone excluir" data-acao="excluir" data-id="${l.id}">Excluir</button>
                     </div>
@@ -247,6 +248,79 @@
         }
     });
 
+    // ---------- Modal de visualização ----------
+    const modalVisualizar = document.getElementById('modalVisualizar');
+    const conteudoVisualizar = document.getElementById('conteudoVisualizar');
+
+    function fecharModalVisualizar() {
+        modalVisualizar.classList.remove('aberto');
+    }
+
+    document.getElementById('botaoFecharVisualizar').addEventListener('click', fecharModalVisualizar);
+    document.getElementById('botaoFecharVisualizar2').addEventListener('click', fecharModalVisualizar);
+    modalVisualizar.addEventListener('click', (e) => {
+        if (e.target === modalVisualizar) fecharModalVisualizar();
+    });
+
+    function abrirModalVisualizar(l) {
+        const detalhes = [
+            ['Rede', l.rede],
+            ['Loja', l.loja],
+            ['Representante', l.representante],
+            ['Tipo de Ação', l.tipo_acao],
+            ['Período', `${formatarData(l.data_inicio)} a ${formatarData(l.data_fim)}`],
+        ];
+
+        if (l.valor_unitario) {
+            detalhes.push(['Quantidade Vendida', l.quantidade ? `${l.quantidade} un` : 'Aguardando quantidade']);
+            detalhes.push(['Recomposição por Unidade', formatarMoeda(l.valor_unitario)]);
+        }
+
+        detalhes.push(['Valor', formatarMoeda(l.valor)]);
+        detalhes.push(['Status', rotulosStatus[l.status] || l.status]);
+
+        let html = '<div class="grade-detalhes">' + detalhes.map(([rotulo, valor]) => `
+            <div class="detalhe-item">
+                <span class="detalhe-rotulo">${escapeHtml(rotulo)}</span>
+                <span class="detalhe-valor">${escapeHtml(String(valor))}</span>
+            </div>
+        `).join('') + '</div>';
+
+        if (l.observacoes) {
+            html += `
+                <div class="detalhe-item detalhe-largo">
+                    <span class="detalhe-rotulo">Observações</span>
+                    <span class="detalhe-valor">${escapeHtml(l.observacoes)}</span>
+                </div>
+            `;
+        }
+
+        html += '<div class="secao-comprovante"><span class="detalhe-rotulo">Comprovante</span>';
+
+        if (l.comprovante) {
+            const urlArquivo = 'uploads/' + encodeURIComponent(l.comprovante);
+            const ehImagem = /\.(jpe?g|png|webp)$/i.test(l.comprovante);
+
+            html += ehImagem
+                ? `<img src="${urlArquivo}" alt="Comprovante" class="preview-comprovante">`
+                : `<div class="preview-comprovante-pdf">📄 Arquivo PDF anexado</div>`;
+
+            html += `
+                <div class="acoes-comprovante">
+                    <a href="${urlArquivo}" target="_blank" class="botao botao-secundario">Abrir arquivo</a>
+                    <a href="imprimir_comprovante.php?id=${encodeURIComponent(l.id)}" target="_blank" class="botao botao-primario">🖨️ Imprimir comprovante</a>
+                </div>
+            `;
+        } else {
+            html += '<span class="sem-comprovante">Nenhum comprovante anexado.</span>';
+        }
+
+        html += '</div>';
+
+        conteudoVisualizar.innerHTML = html;
+        modalVisualizar.classList.add('aberto');
+    }
+
     // ---------- Ações na tabela (editar, excluir, mudar status) ----------
     corpoTabela.addEventListener('click', async (e) => {
         const botao = e.target.closest('button[data-acao]');
@@ -255,6 +329,10 @@
         const id = botao.dataset.id;
         const linha = cacheLinhas.find((l) => String(l.id) === String(id));
         if (!linha) return;
+
+        if (botao.dataset.acao === 'visualizar') {
+            abrirModalVisualizar(linha);
+        }
 
         if (botao.dataset.acao === 'editar') {
             abrirModal('Editar Ação Comercial');

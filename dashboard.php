@@ -226,6 +226,22 @@ exigirLogin();
     </div>
 </div>
 
+<!-- Modal de visualização -->
+<div class="modal-fundo" id="modalVisualizar">
+    <div class="modal-caixa">
+        <div class="modal-cabecalho">
+            <h3>Detalhes da Ação Comercial</h3>
+            <button type="button" class="modal-fechar" id="botaoFecharVisualizar">&times;</button>
+        </div>
+
+        <div class="conteudo-visualizar" id="conteudoVisualizar"></div>
+
+        <div class="modal-rodape">
+            <button type="button" class="botao botao-secundario" id="botaoFecharVisualizar2">Fechar</button>
+        </div>
+    </div>
+</div>
+
 <script src="assets/js/app.js"></script>
 </body>
 </html>
