@@ -38,6 +38,10 @@ para lançar, acompanhar e comprovar tudo isso.
 - 🔄 **Status de aprovação**: Em análise → Aprovado → Pago.
 - 🔍 **Filtros** por rede, representante, status e período.
 - 📈 **Dashboard com totais** por status e total geral.
+- 📊 **Gráficos de acompanhamento de verba**: verba por rede (barras empilhadas por
+  status, com as 7 maiores redes e as demais somadas em "Outras") e verba por
+  período (colunas por mês de início da ação). Acompanham os filtros da tabela,
+  têm tooltip com o detalhe por status e uma visão alternativa em tabela.
 - 📤 **Exportação em Excel** (.xls) e **PDF** (via relatório de impressão), respeitando
   os filtros aplicados na tela.
 - 🎨 **Identidade visual da Hiperroll** (cores, tipografia, logo e favicon) em todo
@@ -77,6 +81,7 @@ api/
 assets/
   css/style.css         Estilo visual (paleta e tipografia da Hiperroll)
   js/app.js             Lógica do painel (tabela, filtros, modais, Sell-in/Sell-out)
+  js/graficos.js        Gráficos em SVG puro (verba por rede e por período)
   js/login.js           Lógica da tela de login
   img/logo-hiperroll.png
   img/favicon-16.png, favicon-32.png, apple-touch-icon.png
@@ -118,7 +123,6 @@ Requer apenas **PHP 8+** — nenhum banco de dados é necessário.
 - [ ] Tela de "trocar senha" para o usuário logado.
 - [ ] Mais de um usuário / nível de acesso (ex: representante só visualiza suas
       próprias ações).
-- [ ] Gráficos de acompanhamento de verba por rede e por período.
 - [ ] Histórico de alterações por ação (auditoria).
 
 ## 👤 Sobre

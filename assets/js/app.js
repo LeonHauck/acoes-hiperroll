@@ -163,6 +163,7 @@
         atualizarLinksExportacao(obterFiltros());
 
         corpoTabela.innerHTML = '<tr><td colspan="10" class="tabela-vazia">Carregando...</td></tr>';
+        Graficos.carregando(true);
 
         try {
             const resposta = await fetch('api/acoes.php?' + params.toString());
@@ -170,12 +171,14 @@
 
             if (dados.erro) {
                 corpoTabela.innerHTML = `<tr><td colspan="10" class="tabela-vazia">${escapeHtml(dados.erro)}</td></tr>`;
+                Graficos.carregando(false);
                 return;
             }
 
             cacheLinhas = dados.linhas;
             renderizarTabela(dados.linhas);
             atualizarCartoes(dados.linhas);
+            Graficos.atualizar(dados.linhas);
 
             preencherDatalist('listaRedes', dados.sugestoes.rede);
             preencherDatalist('listaLojas', dados.sugestoes.loja);
@@ -185,6 +188,7 @@
             preencherDatalist('listaTiposAcao', tiposAcaoCombinados);
         } catch (erro) {
             corpoTabela.innerHTML = '<tr><td colspan="10" class="tabela-vazia">Erro ao carregar os dados. Tente novamente.</td></tr>';
+            Graficos.carregando(false);
         }
     }
 

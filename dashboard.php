@@ -58,6 +58,36 @@ exigirLogin();
         </div>
     </section>
 
+    <section class="painel painel-graficos" id="secaoGraficos" aria-labelledby="tituloGraficos">
+        <div class="painel-cabecalho">
+            <div>
+                <h2 id="tituloGraficos">Acompanhamento de verba</h2>
+                <p class="painel-subtitulo">Acompanha os filtros aplicados na tabela abaixo.</p>
+            </div>
+            <div class="controles-graficos">
+                <ul class="legenda-grafico" id="legendaGrafico" aria-label="Legenda de status">
+                    <li><span class="chave seg-em_analise" aria-hidden="true"></span>Em análise</li>
+                    <li><span class="chave seg-aprovado" aria-hidden="true"></span>Aprovado</li>
+                    <li><span class="chave seg-pago" aria-hidden="true"></span>Pago</li>
+                </ul>
+                <button type="button" class="botao botao-secundario" id="botaoAlternarTabela" aria-pressed="false">Ver como tabela</button>
+            </div>
+        </div>
+
+        <div class="grade-graficos">
+            <div class="bloco-grafico">
+                <h3>Verba por rede</h3>
+                <p class="grafico-subtitulo" id="subtituloRedes"></p>
+                <div class="grafico-area" id="graficoRedes"></div>
+            </div>
+            <div class="bloco-grafico">
+                <h3>Verba por período</h3>
+                <p class="grafico-subtitulo" id="subtituloPeriodo"></p>
+                <div class="grafico-area" id="graficoPeriodo"></div>
+            </div>
+        </div>
+    </section>
+
     <section class="painel">
         <div class="painel-cabecalho">
             <h2>Ações Comerciais</h2>
@@ -242,6 +272,7 @@ exigirLogin();
     </div>
 </div>
 
+<script src="assets/js/graficos.js"></script>
 <script src="assets/js/app.js"></script>
 </body>
 </html>
