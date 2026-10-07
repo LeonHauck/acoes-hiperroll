@@ -68,7 +68,7 @@ Este sistema substitui o formulário por um painel único, onde o gestor comerci
 | 📊 | **Gráficos** | Verba por rede e verba por mês, divididas por status, com detalhe ao passar o mouse e uma visão alternativa em tabela. |
 | 🔍 | **Filtros** | Por rede, representante, status e período. Os totais, os gráficos e as exportações acompanham o filtro. |
 | 📤 | **Exportação** | Excel (.xls) e PDF, com as mesmas ações que estão na tela. |
-| 🔐 | **Acesso** | Login com sessão e troca de senha pelo próprio usuário. |
+| 🔐 | **Acesso** | Login com sessão, troca de senha pelo próprio usuário e bloqueio temporário após 5 tentativas de login erradas. |
 
 ## 🧮 Como funciona o Sell-in e o Sell-out
 
@@ -144,6 +144,7 @@ includes/
   dados.php                Leitura e escrita dos arquivos JSON
   consulta_acoes.php       Filtros usados pela tabela, pelo Excel e pelo PDF
   auth.php                 Controle de sessão
+  limite_login.php         Limite de tentativas de login por IP
 
 assets/
   css/style.css            Estilo visual
@@ -185,6 +186,9 @@ topo do painel.
 
 - As senhas são gravadas com `password_hash` (bcrypt), nunca em texto puro.
 - A troca de senha exige a senha atual e um mínimo de 8 caracteres.
+- O login aceita no máximo 5 tentativas a cada 15 minutos por endereço IP. Acima
+  disso, novas tentativas são recusadas até a janela expirar, o que dificulta
+  adivinhar a senha por tentativa e erro.
 - Não há credenciais no código-fonte: o script de criação do usuário recebe os
   dados na hora do uso.
 - As pastas `data/` e `includes/` bloqueiam acesso direto pela internet, e a pasta
@@ -197,10 +201,10 @@ topo do painel.
 
 - [x] Gráficos de acompanhamento de verba por rede e por período
 - [x] Troca de senha pelo usuário
+- [x] Limite de tentativas de login
 - [ ] Mais de um usuário, com níveis de acesso (por exemplo, o representante vê só as
       próprias ações)
 - [ ] Histórico de alterações de cada ação
-- [ ] Limite de tentativas de login
 
 ## 👤 Autor
 
