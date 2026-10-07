@@ -144,7 +144,7 @@
     function detalheSellInOut(l) {
         if (!l.valor_unitario) return '';
         if (l.quantidade) {
-            return `<br><small class="detalhe-sellinout">${l.quantidade} un × ${formatarMoeda(l.valor_unitario)}</small>`;
+            return `<br><small class="detalhe-sellinout">${Number(l.quantidade).toLocaleString('pt-BR')} un × ${formatarMoeda(l.valor_unitario)}</small>`;
         }
         return `<br><small class="detalhe-sellinout detalhe-pendente">Aguardando quantidade · ${formatarMoeda(l.valor_unitario)}/un</small>`;
     }
@@ -276,7 +276,7 @@
         ];
 
         if (l.valor_unitario) {
-            detalhes.push(['Quantidade Vendida', l.quantidade ? `${l.quantidade} un` : 'Aguardando quantidade']);
+            detalhes.push(['Quantidade Vendida', l.quantidade ? `${Number(l.quantidade).toLocaleString('pt-BR')} un` : 'Aguardando quantidade']);
             detalhes.push(['Recomposição por Unidade', formatarMoeda(l.valor_unitario)]);
         }
 
@@ -385,6 +385,71 @@
 
         await fetch('api/acoes.php', { method: 'POST', body: dados });
         carregarAcoes();
+    });
+
+    // ---------- Troca de senha ----------
+    const modalSenha = document.getElementById('modalSenha');
+    const formSenha = document.getElementById('formSenha');
+    const mensagemSenha = document.getElementById('mensagemSenha');
+    const botaoSalvarSenha = document.getElementById('botaoSalvarSenha');
+    const camposSenha = formSenha.querySelectorAll('input[name]');
+
+    function avisarSenha(texto, sucesso) {
+        mensagemSenha.textContent = texto;
+        mensagemSenha.classList.toggle('sucesso', Boolean(sucesso));
+    }
+
+    function fecharModalSenha() {
+        modalSenha.classList.remove('aberto');
+        formSenha.reset();
+        camposSenha.forEach((campo) => { campo.type = 'password'; });
+        botaoSalvarSenha.disabled = false;
+        avisarSenha('');
+    }
+
+    document.getElementById('botaoAlterarSenha').addEventListener('click', () => {
+        fecharModalSenha();
+        modalSenha.classList.add('aberto');
+        document.getElementById('campoSenhaAtual').focus();
+    });
+
+    document.getElementById('botaoFecharSenha').addEventListener('click', fecharModalSenha);
+    document.getElementById('botaoCancelarSenha').addEventListener('click', fecharModalSenha);
+    modalSenha.addEventListener('click', (e) => {
+        if (e.target === modalSenha) fecharModalSenha();
+    });
+
+    document.getElementById('mostrarSenhas').addEventListener('change', (e) => {
+        camposSenha.forEach((campo) => { campo.type = e.target.checked ? 'text' : 'password'; });
+    });
+
+    formSenha.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        if (formSenha.nova_senha.value !== formSenha.confirmar_senha.value) {
+            avisarSenha('A confirmação não confere com a nova senha.');
+            return;
+        }
+
+        botaoSalvarSenha.disabled = true;
+        avisarSenha('Salvando...');
+
+        try {
+            const resposta = await fetch('api/senha.php', { method: 'POST', body: new FormData(formSenha) });
+            const dados = await resposta.json();
+
+            if (dados.erro) {
+                avisarSenha(dados.erro);
+                botaoSalvarSenha.disabled = false;
+                return;
+            }
+
+            avisarSenha('Senha alterada com sucesso.', true);
+            setTimeout(fecharModalSenha, 1600);
+        } catch (erro) {
+            avisarSenha('Erro ao salvar. Verifique sua conexão e tente novamente.');
+            botaoSalvarSenha.disabled = false;
+        }
     });
 
     carregarAcoes();

@@ -28,6 +28,7 @@ exigirLogin();
         </div>
         <div class="usuario-cabecalho">
             <span>Olá, <?= htmlspecialchars($_SESSION['usuario_nome']) ?></span>
+            <button type="button" class="botao botao-secundario" id="botaoAlterarSenha">Alterar senha</button>
             <a href="logout.php" class="botao botao-secundario">Sair</a>
         </div>
     </div>
@@ -269,6 +270,43 @@ exigirLogin();
         <div class="modal-rodape">
             <button type="button" class="botao botao-secundario" id="botaoFecharVisualizar2">Fechar</button>
         </div>
+    </div>
+</div>
+
+<!-- Modal de troca de senha -->
+<div class="modal-fundo" id="modalSenha">
+    <div class="modal-caixa modal-estreito">
+        <div class="modal-cabecalho">
+            <h3>Alterar senha</h3>
+            <button type="button" class="modal-fechar" id="botaoFecharSenha" aria-label="Fechar">&times;</button>
+        </div>
+
+        <form id="formSenha">
+            <div class="grade-formulario grade-uma-coluna">
+                <div class="campo">
+                    <label for="campoSenhaAtual">Senha atual *</label>
+                    <input type="password" id="campoSenhaAtual" name="senha_atual" autocomplete="current-password" required>
+                </div>
+                <div class="campo">
+                    <label for="campoNovaSenha">Nova senha *</label>
+                    <input type="password" id="campoNovaSenha" name="nova_senha" autocomplete="new-password" minlength="8" required>
+                    <small class="texto-ajuda">Mínimo de 8 caracteres.</small>
+                </div>
+                <div class="campo">
+                    <label for="campoConfirmarSenha">Confirmar nova senha *</label>
+                    <input type="password" id="campoConfirmarSenha" name="confirmar_senha" autocomplete="new-password" minlength="8" required>
+                </div>
+                <label class="opcao-mostrar-senha">
+                    <input type="checkbox" id="mostrarSenhas"> Mostrar senhas
+                </label>
+            </div>
+
+            <div class="modal-rodape">
+                <span class="mensagem-formulario" id="mensagemSenha" role="status"></span>
+                <button type="button" class="botao botao-secundario" id="botaoCancelarSenha">Cancelar</button>
+                <button type="submit" class="botao botao-primario" id="botaoSalvarSenha">Salvar nova senha</button>
+            </div>
+        </form>
     </div>
 </div>
 

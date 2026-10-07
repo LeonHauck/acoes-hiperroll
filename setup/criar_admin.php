@@ -24,9 +24,9 @@ if ($usuarioLogin === '' || $senha === '') {
     );
 }
 
-if (strlen($senha) < 6) {
+if (mb_strlen($senha) < 8) {
     http_response_code(400);
-    die('Use uma senha com pelo menos 6 caracteres.');
+    die('Use uma senha com pelo menos 8 caracteres.');
 }
 
 $hash = password_hash($senha, PASSWORD_DEFAULT);
