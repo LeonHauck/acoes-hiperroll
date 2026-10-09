@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../includes/dados.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/consulta_acoes.php';
+require_once __DIR__ . '/../includes/historico.php';
 
 exigirLoginApi();
 header('Content-Type: application/json; charset=utf-8');
@@ -137,7 +138,7 @@ switch ($acaoRequisicao) {
                             $comprovanteFinal = $nomeArquivo;
                         }
 
-                        $linha = [
+                        $atualizada = [
                             'id' => $linha['id'],
                             'rede' => $rede,
                             'loja' => $loja,
@@ -153,7 +154,15 @@ switch ($acaoRequisicao) {
                             'comprovante' => $comprovanteFinal,
                             'criado_em' => $linha['criado_em'] ?? date('Y-m-d H:i:s'),
                             'atualizado_em' => date('Y-m-d H:i:s'),
+                            'historico' => $linha['historico'] ?? [],
                         ];
+
+                        $alteracoes = diferencasAcao($linha, $atualizada);
+                        if ($alteracoes) {
+                            $atualizada['historico'][] = eventoHistorico('edicao', $alteracoes);
+                        }
+
+                        $linha = $atualizada;
                         $resultado = ['sucesso' => true, 'id' => $linha['id']];
                         break;
                     }
@@ -181,6 +190,7 @@ switch ($acaoRequisicao) {
                     'comprovante' => $nomeArquivo,
                     'criado_em' => date('Y-m-d H:i:s'),
                     'atualizado_em' => date('Y-m-d H:i:s'),
+                    'historico' => [eventoHistorico('criacao')],
                 ];
                 $resultado = ['sucesso' => true, 'id' => $novoId];
             }
@@ -215,8 +225,14 @@ switch ($acaoRequisicao) {
         alterarAcoes(function (array $linhas) use ($id, $status) {
             foreach ($linhas as &$linha) {
                 if ((string)$linha['id'] === (string)$id) {
-                    $linha['status'] = $status;
-                    $linha['atualizado_em'] = date('Y-m-d H:i:s');
+                    $statusAnterior = $linha['status'] ?? null;
+                    if ($statusAnterior !== $status) {
+                        $linha['historico'][] = eventoHistorico('status', [
+                            ['campo' => 'status', 'de' => $statusAnterior, 'para' => $status],
+                        ]);
+                        $linha['status'] = $status;
+                        $linha['atualizado_em'] = date('Y-m-d H:i:s');
+                    }
                     break;
                 }
             }

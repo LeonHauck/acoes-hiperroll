@@ -320,9 +320,95 @@
         }
 
         html += '</div>';
+        html += htmlHistorico(l);
 
         conteudoVisualizar.innerHTML = html;
         modalVisualizar.classList.add('aberto');
+    }
+
+    // ---------- Histórico de alterações ----------
+    const rotulosCampos = {
+        rede: 'Rede',
+        loja: 'Loja',
+        representante: 'Representante',
+        tipo_acao: 'Tipo de ação',
+        data_inicio: 'Data início',
+        data_fim: 'Data fim',
+        quantidade: 'Quantidade vendida',
+        valor_unitario: 'Recomposição por unidade',
+        valor: 'Valor',
+        observacoes: 'Observações',
+        status: 'Status',
+    };
+
+    const titulosEventos = {
+        criacao: 'Ação criada',
+        edicao: 'Dados editados',
+        status: 'Status alterado',
+    };
+
+    function formatarDataHora(texto) {
+        const [data, hora = ''] = String(texto).split(' ');
+        return `${formatarData(data)} às ${hora.slice(0, 5)}`;
+    }
+
+    function formatarValorHistorico(campo, valor) {
+        if (valor === null || valor === undefined || valor === '') return '(vazio)';
+        if (campo === 'valor' || campo === 'valor_unitario') return formatarMoeda(valor);
+        if (campo === 'quantidade') return Number(valor).toLocaleString('pt-BR') + ' un';
+        if (campo === 'data_inicio' || campo === 'data_fim') return formatarData(valor);
+        if (campo === 'status') return rotulosStatus[valor] || valor;
+        return String(valor);
+    }
+
+    function descreverAlteracao(a) {
+        if (a.campo === 'comprovante') {
+            return escapeHtml(a.de ? 'Comprovante substituído' : 'Comprovante anexado');
+        }
+        const rotulo = rotulosCampos[a.campo] || a.campo;
+        return `${escapeHtml(rotulo)}: <span class="valor-antigo">${escapeHtml(formatarValorHistorico(a.campo, a.de))}</span>`
+            + ` <span class="seta-historico" aria-label="para">→</span> <strong>${escapeHtml(formatarValorHistorico(a.campo, a.para))}</strong>`;
+    }
+
+    function htmlHistorico(l) {
+        const eventos = (l.historico || []).slice().reverse();
+        const temCriacao = eventos.some((ev) => ev.tipo === 'criacao');
+
+        const itens = eventos.map((ev) => {
+            const tipo = titulosEventos[ev.tipo] ? ev.tipo : 'edicao';
+            const alteracoes = (ev.alteracoes || []).map((a) => `<li>${descreverAlteracao(a)}</li>`).join('');
+            return `
+                <li class="evento evento-${tipo}">
+                    <div class="evento-cabecalho">
+                        <strong>${escapeHtml(titulosEventos[tipo])}</strong>
+                        <span>${escapeHtml(formatarDataHora(ev.quando))} · ${escapeHtml(ev.usuario || '')}</span>
+                    </div>
+                    ${alteracoes ? `<ul class="evento-alteracoes">${alteracoes}</ul>` : ''}
+                </li>
+            `;
+        });
+
+        // Ações cadastradas antes de o histórico existir só têm a data de criação.
+        if (!temCriacao && l.criado_em) {
+            itens.push(`
+                <li class="evento evento-criacao">
+                    <div class="evento-cabecalho">
+                        <strong>Ação criada</strong>
+                        <span>${escapeHtml(formatarDataHora(l.criado_em))}</span>
+                    </div>
+                </li>
+            `);
+        }
+
+        const aviso = temCriacao ? '' : '<p class="aviso-historico">Esta ação foi cadastrada antes de o histórico existir: alterações anteriores não foram registradas.</p>';
+
+        return `
+            <div class="secao-historico">
+                <span class="detalhe-rotulo">Histórico de alterações</span>
+                <ol class="linha-do-tempo">${itens.join('')}</ol>
+                ${aviso}
+            </div>
+        `;
     }
 
     // ---------- Ações na tabela (editar, excluir, mudar status) ----------

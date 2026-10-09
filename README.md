@@ -49,9 +49,9 @@ Este sistema substitui o formulário por um painel único, onde o gestor comerci
 
 ## 📸 Telas
 
-| Nova ação (Sell-in com cálculo automático) | Detalhes da ação e comprovante |
+| Nova ação (Sell-in com cálculo automático) | Detalhes, comprovante e histórico de alterações |
 | :---: | :---: |
-| <img src="docs/screenshots/nova-acao.png" alt="Formulário de nova ação comercial" width="430"> | <img src="docs/screenshots/detalhes.png" alt="Modal de detalhes com prévia do comprovante" width="430"> |
+| <img src="docs/screenshots/nova-acao.png" alt="Formulário de nova ação comercial" width="430"> | <img src="docs/screenshots/detalhes.png" alt="Modal de detalhes com comprovante e histórico de alterações" width="430"> |
 | **Login** | **Troca de senha** |
 | <img src="docs/screenshots/login.jpg" alt="Tela de login" width="430"> | <img src="docs/screenshots/alterar-senha.png" alt="Modal de troca de senha" width="430"> |
 
@@ -64,6 +64,7 @@ Este sistema substitui o formulário por um painel único, onde o gestor comerci
 | 📎 | **Comprovante** | Foto ou PDF anexado a cada ação (JPG, PNG, WEBP ou PDF, até 8 MB). |
 | 👁️ | **Visualização e impressão** | Um modal mostra todos os dados da ação e a prévia do comprovante. O comprovante pode ser impresso em uma página com o contexto da ação. |
 | 🔄 | **Status** | Em análise, Aprovado ou Pago, alterado direto na tabela. |
+| 🕓 | **Histórico de alterações** | Cada ação guarda quem criou, editou ou mudou o status, quando, e o valor de antes e de depois de cada campo alterado. |
 | 📈 | **Totais** | Cards com o valor e a quantidade de ações em cada status. |
 | 📊 | **Gráficos** | Verba por rede e verba por mês, divididas por status, com detalhe ao passar o mouse e uma visão alternativa em tabela. |
 | 🔍 | **Filtros** | Por rede, representante, status e período. Os totais, os gráficos e as exportações acompanham o filtro. |
@@ -144,6 +145,7 @@ includes/
   dados.php                Leitura e escrita dos arquivos JSON
   consulta_acoes.php       Filtros usados pela tabela, pelo Excel e pelo PDF
   auth.php                 Controle de sessão
+  historico.php            Registro das alterações de cada ação
   limite_login.php         Limite de tentativas de login por IP
 
 assets/
@@ -202,9 +204,9 @@ topo do painel.
 - [x] Gráficos de acompanhamento de verba por rede e por período
 - [x] Troca de senha pelo usuário
 - [x] Limite de tentativas de login
+- [x] Histórico de alterações de cada ação
 - [ ] Mais de um usuário, com níveis de acesso (por exemplo, o representante vê só as
       próprias ações)
-- [ ] Histórico de alterações de cada ação
 
 ## 👤 Autor
 
